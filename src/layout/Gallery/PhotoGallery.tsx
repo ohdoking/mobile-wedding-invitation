@@ -5,9 +5,9 @@ import images from '@/layout/Gallery/Images.ts';
 const PhotoGallery = () => {
   const smallItemStyles: React.CSSProperties = {
     cursor: 'pointer',
-    objectFit: 'contain',
+    objectFit: 'cover',
     width: '100px',
-    height: '150px',
+    height: '100px',
   };
 
   return (
@@ -15,7 +15,7 @@ const PhotoGallery = () => {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(3, 0fr)',
+          gridTemplateColumns: 'repeat(3, 1fr)',
           gridGap: 2,
         }}>
         {images.map((image, index) => {

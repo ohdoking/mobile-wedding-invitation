@@ -8,7 +8,7 @@ const Guestbook = () => {
       <Heading2>
         메시지를 남겨주세요.
         <br />
-        결혼식 하루 뒤, 신랑 신부에게 전달됩니다.
+        따뜻한 축하메시지는 회장님께 힘이 됩니다.
       </Heading2>
       <CommentForm />
     </GuestBookWrapper>

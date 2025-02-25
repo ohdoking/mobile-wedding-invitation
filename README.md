@@ -53,7 +53,7 @@ npm run dev
 
 ## Clone 후, 바로 배포하기
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fheejin-hwang%2Fmobile-wedding-invitation)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fohdoking%2Fmobile-wedding-invitation)
 
 
 ## 참고 자료

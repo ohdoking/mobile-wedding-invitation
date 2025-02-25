@@ -9,15 +9,15 @@ const Invitation = () => {
   return (
     <InvitationWrapper>
       <Paragraph>{greeting.message}</Paragraph>
-      <Host />
-      <Caption textAlign={'center'}>{greeting.eventDetail}</Caption>
+      {/* <Host /> */}
+      {/* <Caption textAlign={'center'}>{greeting.eventDetail}</Caption> */}
       {/* TODO: 구글캘린더 추가하기 기능을 넣는다면 링크 수정 */}
-      <RoundButton
+      {/* <RoundButton
         target="_blank"
         href=""
         rel="noreferrer">
         구글 캘린더 추가하기
-      </RoundButton>
+      </RoundButton> */}
     </InvitationWrapper>
   );
 };

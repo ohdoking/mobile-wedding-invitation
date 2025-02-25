@@ -12,6 +12,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@react-google-maps/api": "^2.20.6",
     "@types/navermaps": "^3.7.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-import-resolver-typescript": "^3.6.1",
@@ -19,9 +20,11 @@
     "eslint-plugin-react": "^7.33.2",
     "firebase": "^10.5.2",
     "js-confetti": "^0.11.0",
+    "leaflet": "^1.9.4",
     "photoswipe": "^5.4.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^19.0.0-rc.1",
+    "react-dom": "^19.0.0-rc.1",
+    "react-leaflet": "^5.0.0-rc.2",
     "react-naver-maps": "^0.1.2",
     "react-photoswipe-gallery": "^2.2.7"
   },
