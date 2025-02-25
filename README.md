@@ -1,8 +1,8 @@
-# 💌 Mobile Wedding Invitation 💌
+# 💌 Mobile 70th Birthday Party Invitation 💌
 
 ![demo1.gif](demo1.gif)
 
-이 프로젝트는 모바일 청첩장 입니다.
+이 프로젝트는 모바일 청첩장을 클론 받아 칠순 잔치 형태로 변경하였습니다.
 
 React와 Typescript를 기반으로 개발되었으며, Vite를 사용하여 빠르고 간편한 개발 환경을 제공합니다. 
 
@@ -31,10 +31,9 @@ cd mobile-wedding-invitation
 ```
 npm install
 ```
-4. (필수) `.env.sample` 파일의 이름을 `.env`으로 바꾸고, VITE_APP_NAVERMAPS_CLIENT_ID에 Naver Cloud에서 발급 받은 `client_id`로 채웁니다. `client_id`는 [NAVER CLOUD PLATFORM](https://console.ncloud.com/naver-service/application) 에서 어플리케이션 등록 후 발급받을 수 있습니다.
-5. (선택) likes와 방명록 기능 사용을 원한다면 Firebase 설정이 필요합니다. src/firebase.ts 파일에 Firebase SDK를 설정합니다. [Firebase](https://firebase.google.com/docs/web/setup?hl=ko) 문서를 참고하여 SDK를 설정할 수 있습니다.
-6. 사용자 정의가 필요한 파일들을 수정합니다. (아래의 체크리스트 참고)
-7. 애플리케이션을 실행합니다.
+4. (선택) likes와 방명록 기능 사용을 원한다면 Firebase 설정이 필요합니다. src/firebase.ts 파일에 Firebase SDK를 설정합니다. [Firebase](https://firebase.google.com/docs/web/setup?hl=ko) 문서를 참고하여 SDK를 설정할 수 있습니다.
+5. 사용자 정의가 필요한 파일들을 수정합니다. (아래의 체크리스트 참고)
+6. 애플리케이션을 실행합니다.
 ```
 npm run dev
 ```
@@ -70,8 +69,3 @@ npm run dev
 
 ## 또 하나의 모바일 청첩장
 좀 더 정돈된 디자인을 윈한다면, [스몰빅웨딩](https://bit.ly/4jEJQcg)에서 귀여운 포인트가 가득한 청첩장을 이용해 볼 수 있습니다.
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=heejin-hwang/mobile-wedding-invitation&type=Date)](https://star-history.com/#heejin-hwang/mobile-wedding-invitation&Date)
-
