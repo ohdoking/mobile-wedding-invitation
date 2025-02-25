@@ -26,7 +26,6 @@ const GuestbookList = () => {
   };
 
   const fetchComments = async (page: number) => {
-    setLoading(true);
     const startAt = (page - 1) * commentsPerPage;
     const guestbookQuery = query(
       ref(realtimeDb, 'guestbook'),
@@ -44,7 +43,6 @@ const GuestbookList = () => {
       const newComments = items.reverse(); // Reverse to show the latest comments at the bottom
       setComments(newComments.slice(startAt, startAt + commentsPerPage)); // Display comments for the current page
     }
-    setLoading(false);
   };
 
   const handlePageChange = (page: number) => {
