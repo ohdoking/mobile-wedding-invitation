@@ -3,22 +3,37 @@ import { ref, get, query, orderByChild, limitToLast, onChildAdded } from 'fireba
 import { realtimeDb } from '../../firebase.ts';
 import styled from '@emotion/styled';
 
-const PAGE_SIZE = 10;
+const INITIAL_PAGE_SIZE = 5; // Number of comments per page
 
 const GuestbookList = () => {
   const [comments, setComments] = useState<Array<{ id: string; sender: string; message: string; date: string }>>([]);
   const [loading, setLoading] = useState(false);
-  const [lastKey, setLastKey] = useState<string | null>(null);
-  const [hasMore, setHasMore] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalComments, setTotalComments] = useState(0); // Total number of comments
+  const [commentsPerPage] = useState(INITIAL_PAGE_SIZE);
 
   useEffect(() => {
-    fetchInitialComments();
+    fetchTotalComments();
+    fetchComments(currentPage);
     subscribeToNewComments();
-  }, []);
+  }, [currentPage]);
 
-  const fetchInitialComments = async () => {
+  const fetchTotalComments = async () => {
+    const guestbookQuery = query(ref(realtimeDb, 'guestbook'));
+    const snapshot = await get(guestbookQuery);
+    if (snapshot.exists()) {
+      setTotalComments(Object.keys(snapshot.val()).length); // Set the total number of comments
+    }
+  };
+
+  const fetchComments = async (page: number) => {
     setLoading(true);
-    const guestbookQuery = query(ref(realtimeDb, 'guestbook'), orderByChild('createdAt'), limitToLast(PAGE_SIZE + 1));
+    const startAt = (page - 1) * commentsPerPage;
+    const guestbookQuery = query(
+      ref(realtimeDb, 'guestbook'),
+      orderByChild('createdAt'),
+      limitToLast(startAt + commentsPerPage) // Fetch the required number of items
+    );
 
     const snapshot = await get(guestbookQuery);
     if (snapshot.exists()) {
@@ -27,55 +42,31 @@ const GuestbookList = () => {
         ...val,
       }));
 
-      const newLastKey = items.length > PAGE_SIZE ? items[0].id : null;
-      setLastKey(newLastKey);
-      setComments(items.slice(-PAGE_SIZE)); // Keep only the latest 10 items
-      setHasMore(newLastKey !== null);
-    } else {
-      setHasMore(false);
+      const newComments = items.reverse(); // Reverse to show the latest comments at the bottom
+      setComments(newComments.slice(startAt, startAt + commentsPerPage)); // Display comments for the current page
     }
     setLoading(false);
   };
 
-  const loadMore = async () => {
-    if (!lastKey || loading) return;
-    setLoading(true);
-
-    const guestbookQuery = query(ref(realtimeDb, 'guestbook'), orderByChild('createdAt'), limitToLast(PAGE_SIZE + 1));
-
-    const snapshot = await get(guestbookQuery);
-    if (snapshot.exists()) {
-      const items = Object.entries(snapshot.val()).map(([key, val]: any) => ({
-        id: key,
-        ...val,
-      }));
-
-      const newLastKey = items.length > PAGE_SIZE ? items[0].id : null;
-      setLastKey(newLastKey);
-      // Add new items only if they are not already in comments
-      setComments((prev) => {
-        const existingIds = new Set(prev.map(comment => comment.id));
-        const newComments = items.slice(-PAGE_SIZE).filter(comment => !existingIds.has(comment.id));
-        return [...newComments, ...prev];
-      });
-      setHasMore(newLastKey !== null);
-    }
-    setLoading(false);
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
   };
 
   const subscribeToNewComments = () => {
     const guestbookRef = query(ref(realtimeDb, 'guestbook'), orderByChild('createdAt'));
     onChildAdded(guestbookRef, (snapshot) => {
       const newComment = { id: snapshot.key, ...snapshot.val() };
-      // Only add the new comment if it doesn't already exist
       setComments((prev) => {
         if (!prev.some(comment => comment.id === newComment.id)) {
           return [newComment, ...prev];
         }
         return prev; // Return previous state if the comment is a duplicate
       });
+      fetchTotalComments(); // Update total comments when a new comment is added
     });
   };
+
+  const totalPages = Math.ceil(totalComments / commentsPerPage); // Calculate total pages
 
   return (
     <GuestbookContainer>
@@ -88,11 +79,17 @@ const GuestbookList = () => {
           <Content>{comment.message}</Content>
         </Comment>
       ))}
-      {hasMore && (
-        <LoadMoreButton onClick={loadMore} disabled={loading}>
-          {loading ? 'Loading...' : 'Load More'}
-        </LoadMoreButton>
-      )}
+      <Pagination>
+        {[...Array(totalPages)].map((_, index) => (
+          <PageButton
+            key={index + 1}
+            onClick={() => handlePageChange(index + 1)}
+            active={currentPage === index + 1}
+          >
+            {index + 1}
+          </PageButton>
+        ))}
+      </Pagination>
     </GuestbookContainer>
   );
 };
@@ -138,23 +135,31 @@ const Content = styled.p`
   font-size: 14px;
 `;
 
-const LoadMoreButton = styled.button`
+const Pagination = styled.div`
+  display: flex;
+  justify-content: center; /* Center the pagination buttons */
+  gap: 5px;
+  margin-top: 10px;
+`;
+
+
+const PageButton = styled.button<{ active?: boolean }>`
   padding: 8px 12px;
   border-radius: 5px;
   border: none;
-  background-color: #007bff;
-  color: white;
+  background-color: ${({ active }) => (active ? '#007bff' : '#e0e0e0')};
+  color: ${({ active }) => (active ? 'white' : '#000')};
   cursor: pointer;
-  margin-top: 10px;
   transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #0056b3;
+    color: white;
+  }
 
   &:disabled {
     background-color: #ccc;
     cursor: not-allowed;
-  }
-
-  &:not(:disabled):hover {
-    background-color: #0056b3;
   }
 `;
 
