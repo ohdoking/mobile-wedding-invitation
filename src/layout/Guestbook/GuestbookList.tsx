@@ -7,7 +7,6 @@ const INITIAL_PAGE_SIZE = 5; // Number of comments per page
 
 const GuestbookList = () => {
   const [comments, setComments] = useState<Array<{ id: string; sender: string; message: string; date: string }>>([]);
-  const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalComments, setTotalComments] = useState(0); // Total number of comments
   const [commentsPerPage] = useState(INITIAL_PAGE_SIZE);
