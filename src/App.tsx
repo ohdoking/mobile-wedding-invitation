@@ -5,6 +5,7 @@ import Container from '@/layout/Container.tsx';
 import FloatingBar from '@/layout/FloatingBar/FloatingBar.tsx';
 import GalleryWrap from '@/layout/Gallery/GalleryWrap.tsx';
 import Guestbook from '@/layout/Guestbook/Guestbook.tsx';
+import GuestbookList from '@/layout/Guestbook/GuestbookList.tsx';
 import Invitation from '@/layout/Invitation/Invitation.tsx';
 import Location from '@/layout/Location/Location.tsx';
 import Main from '@/layout/Main/Main.tsx';
@@ -57,6 +58,10 @@ function App() {
       <Wrapper>
         <Heading1>회장님에게</Heading1>
         <Guestbook />
+      </Wrapper>
+      <Wrapper>
+        <Heading1>축하메시지</Heading1>
+        <GuestbookList />
       </Wrapper>
       <FloatingBar isVisible={isVisible} />
     </Container>
